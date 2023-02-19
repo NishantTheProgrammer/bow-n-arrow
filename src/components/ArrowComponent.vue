@@ -1,5 +1,4 @@
 <template>
-    <p class="arrow" :style="{ zIndex: 2, top: y + '%', left: x + '%' }">{{ x }},{{ y }}</p>
     <img class="arrow" :style="{ top: y + '%', left: x + '%' }" src="../assets/arrow.png">
 </template>
 
