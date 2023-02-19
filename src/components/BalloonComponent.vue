@@ -20,6 +20,6 @@ export default {
 .balloon {
     height: 10%;
     position: absolute;
-    transition: all .2s;
+    transition: all 1s;
 }
 </style>

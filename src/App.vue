@@ -1,5 +1,7 @@
 <template>
   <div class="playground">
+    <!-- <p>{{  balloons  }}</p> -->
+    <LifesComponent :life="life"></LifesComponent>
     <ArcheryComponent :archeryPosition="archeryPosition"></ArcheryComponent>
     <BalloonComponent v-for="(balloon, index) in balloons" :key="index" :x="balloon.x" :y="balloon.y"></BalloonComponent>
   </div>
@@ -8,17 +10,20 @@
 <script>
 import BalloonComponent from './components/BalloonComponent.vue'
 import ArcheryComponent from './components/ArcheryComponent.vue'
+import LifesComponent from './components/LifesComponent.vue'
 
 export default {
   name: 'App',
   components: {
     BalloonComponent,
-    ArcheryComponent
+    ArcheryComponent,
+    LifesComponent
   },
   data() {
     return {
       x: 10,
       y: 10,
+      life: 5,
       archeryPosition: 20,
       balloons: []
     }
@@ -31,9 +36,19 @@ export default {
     });
 
     setInterval(() => {
-      const newBallon = { x: this.randomNumber(20, 95), y: 85 };
+      const newBallon = { x: this.randomNumber(20, 95), y: 90 };
       this.balloons.push(newBallon);
-    }, 3000)
+    }, 3000);
+
+    const FPS = 1;
+
+    setInterval(() => {
+      // this.updateBallonPositon();
+      if(this.life == 0) {
+        alert('Game over');
+        location.reload();
+      }
+    }, 1000 / FPS);
   },
   methods: {
     increseByTen() {
@@ -47,6 +62,14 @@ export default {
         case 'ArrowDown': this.archeryPosition += 10; break;
         case 'ArrowUp': this.archeryPosition -= 10; break;
       }
+    },
+    updateBallonPositon() {
+      this.balloons.forEach(balloon => {
+        balloon.y -= 10;
+        if(balloon.y == 0) {
+          this.life--;
+        }
+      })
     }
   }
 }
