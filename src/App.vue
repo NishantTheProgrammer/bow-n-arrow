@@ -1,8 +1,8 @@
 <template>
   <div class="playground">
     <ArcheryComponent :archeryPosition="archeryPosition"></ArcheryComponent>
+    <BalloonComponent v-for="(balloon, index) in balloons" :key="index" :x="balloon.x" :y="balloon.y"></BalloonComponent>
   </div>
-  <BalloonComponent :x="x" :y="y"></BalloonComponent>
 </template>
 
 <script>
@@ -17,24 +17,33 @@ export default {
   },
   data() {
     return {
-      x: 100,
-      y: 400,
-      archeryPosition: 20
+      x: 10,
+      y: 10,
+      archeryPosition: 20,
+      balloons: []
     }
   },
   mounted() {
-    let self = this; 
+    let self = this;
 
-    window.addEventListener('keyup', function(ev) {
-        self.keyup(ev); // declared in your component methods
+    window.addEventListener('keyup', function (ev) {
+      self.keyup(ev); // declared in your component methods
     });
+
+    setInterval(() => {
+      const newBallon = { x: this.randomNumber(20, 95), y: 85 };
+      this.balloons.push(newBallon);
+    }, 3000)
   },
   methods: {
     increseByTen() {
       this.counter += 10;
     },
+    randomNumber(min, max) {
+      return Math.floor(Math.random() * (max - min) + min);
+    },
     keyup(ev) {
-      switch(ev.code) {
+      switch (ev.code) {
         case 'ArrowDown': this.archeryPosition += 10; break;
         case 'ArrowUp': this.archeryPosition -= 10; break;
       }
