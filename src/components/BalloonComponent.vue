@@ -10,16 +10,15 @@ export default {
     props: ['x', 'y'],
     created() {
         // props are exposed on `this`
-        console.log(this.x, this.y)
 
     }
 }
 </script>
 
-<style>
+<style scoped>
 .balloon {
     height: 10%;
     position: absolute;
-    transition: all 1s;
+    /* transition: all 1s; */
 }
 </style>

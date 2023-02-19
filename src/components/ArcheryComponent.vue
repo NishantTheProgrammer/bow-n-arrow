@@ -8,17 +8,16 @@ export default {
   props: ['archeryPosition'],
   created() {
     // props are exposed on `this`
-    console.log(this.x, this.y)
     
   }
 }
 </script>
 
 
-<style>
+<style scoped>
 .archery {
     height: 12%;
     position: absolute;
-    transition: all .2s;
+    /* transition: all .2s; */
 }
 </style>
