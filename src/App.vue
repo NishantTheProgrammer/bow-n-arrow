@@ -3,6 +3,7 @@
   <div class="playground" v-else>
     <!-- <p>{{  balloons  }}</p> -->
     <LifesComponent :life="life"></LifesComponent>
+    <button class="pouse" @click="isPause=!isPause" >{{ isPause ? 'Resume' : 'Pause'}}</button>
     <ArcheryComponent :archeryPosition="archeryPosition"></ArcheryComponent>
     <BalloonComponent v-for="(balloon, index) in balloons" :key="index" :x="balloon.x" :y="balloon.y"></BalloonComponent>
     <ArrowComponent v-for="(arrow, index) in arrows" :key="index" :x="arrow.x" :y="arrow.y"></ArrowComponent>
@@ -27,10 +28,9 @@ export default {
   },
   data() {
     return {
-      x: 10,
-      y: 10,
       life: 5,
       isGameOver: false,
+      isPause: false,
       archeryPosition: 20,
       balloons: [],
       arrows: []
@@ -44,6 +44,7 @@ export default {
     });
 
     setInterval(() => {
+      if(this.isPause) return;
       const newBallon = { x: this.randomNumber(20, 95), y: 90 };
       this.balloons.push(newBallon);
     }, 3000);
@@ -51,6 +52,7 @@ export default {
     const FPS = 4;
 
     const interval = setInterval(() => {
+      if(this.isPause) return;
       this.updatePositons();
       this.detectCollusion();
       if (this.life == 0) {
@@ -62,20 +64,20 @@ export default {
     }, 1000 / FPS);
   },
   methods: {
-    increseByTen() {
-      this.counter += 10;
-    },
     randomNumber(min, max) {
       return Math.floor(Math.random() * (max - min) + min);
     },
     keyup(ev) {
+      console.log(ev.code);
       switch (ev.code) {
+        case 'KeyP': this.isPause = !this.isPause; break;
         case 'ArrowDown': this.archeryPosition += 10; break;
         case 'ArrowUp': this.archeryPosition -= 10; break;
         case 'Space': this.addArrow(); break;
       }
     },
     addArrow() {
+      if(this.isPause) return;
       const newArrow = { x: 2, y: this.archeryPosition };
       this.arrows.push(newArrow);
     },
@@ -132,5 +134,15 @@ body {
   border-radius: 20px;
   padding: 30px;
   position: relative;
+}
+.pouse {
+  border-radius: 50%;
+  background-image:linear-gradient(red, white) ;
+  position: absolute;
+  top:20px;
+  left:15%;
+  padding: 10px;
+  font-size:25px;
+
 }
 </style>
